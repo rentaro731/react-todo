@@ -1,6 +1,6 @@
-import { Radio } from "./Radiohoge.jsx";
-import { TodoItem } from "./TodoItemhoge.jsx";
-import { TodoData } from "./TodoDatahoge.jsx";
+import { Radio } from "./Radio.jsx";
+import { TodoItem } from "./TodoItem.jsx";
+import { TodoData } from "./TodoData.jsx";
 export function TodoList() {
   const todos = TodoData();
   return (
