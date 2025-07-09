@@ -24,9 +24,8 @@ export function TodoList() {
   ];
   const [todos, settodos] = useState(todoData);
   const [taskName, setTaskName] = useState("");
-  console.log("タスク名", taskName);
   const [newDate, setNewDate] = useState("");
-  console.log("期限", newDate);
+
   const AddTodo = (e) => {
     e.preventDefault();
     settodos((todos) => [
