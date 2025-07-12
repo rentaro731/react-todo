@@ -24,7 +24,7 @@ export function TodoList() {
   ];
   const [todos, setTodos] = useState(todoData);
   const [taskName, setTaskName] = useState("");
-  const [taskDate, setTaskDate] = useState("");
+  const [dueDate, setDueDate] = useState("");
 
   const AddTodo = (e) => {
     e.preventDefault();
@@ -39,7 +39,7 @@ export function TodoList() {
     ]);
 
     setTaskName("");
-    setTaskDate("");
+    setDueDate("");
   };
   return (
     <>
@@ -71,8 +71,8 @@ export function TodoList() {
         <input
           type="date"
           style={{ marginRight: "10px" }}
-          value={taskDate}
-          onChange={(e) => setTaskDate(e.target.value)}
+          value={dueDate}
+          onChange={(e) => setDueDate(e.target.value)}
         />
         <button onClick={AddTodo}>追加</button>
       </>
