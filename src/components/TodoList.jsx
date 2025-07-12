@@ -71,7 +71,7 @@ export function TodoList() {
         <input
           type="date"
           style={{ marginRight: "10px" }}
-          value={newDate}
+          value={taskDate}
           onChange={(e) => setTaskDate(e.target.value)}
         />
         <button onClick={AddTodo}>追加</button>
