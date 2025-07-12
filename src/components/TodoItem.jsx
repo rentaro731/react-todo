@@ -8,7 +8,7 @@ export function TodoItem({ todo, index }) {
         <button>{todo.status}</button>
       </td>
       <td>
-        <button>{todo.delete}</button>
+        <button>✖️</button>
       </td>
     </tr>
   );
