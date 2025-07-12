@@ -1,6 +1,6 @@
 import { Radio } from "./Radio.jsx";
 import { TodoItem } from "./TodoItem.jsx";
-import { useState, useRef } from "react";
+import { useState } from "react";
 export function TodoList() {
   const todoData = [
     {
@@ -22,24 +22,24 @@ export function TodoList() {
       status: "作業中",
     },
   ];
-  const [todos, settodos] = useState(todoData);
+  const [todos, setTodos] = useState(todoData);
   const [taskName, setTaskName] = useState("");
-  const [newDate, setNewDate] = useState("");
+  const [taskDate, setTaskDate] = useState("");
 
   const AddTodo = (e) => {
     e.preventDefault();
-    settodos((todos) => [
+    setTodos((todos) => [
       ...todos,
       {
         id: todos.length + 1,
         title: taskName,
-        date: newDate,
+        date: taskDate,
         status: "作業中",
       },
     ]);
 
     setTaskName("");
-    setNewDate("");
+    setTaskDate("");
   };
   return (
     <>
@@ -72,7 +72,7 @@ export function TodoList() {
           type="date"
           style={{ marginRight: "10px" }}
           value={newDate}
-          onChange={(e) => setNewDate(e.target.value)}
+          onChange={(e) => setTaskDate(e.target.value)}
         />
         <button onClick={AddTodo}>追加</button>
       </>
