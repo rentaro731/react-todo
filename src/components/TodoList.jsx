@@ -66,7 +66,7 @@ export function TodoList() {
           style={{ marginRight: "10px" }}
           placeholder="タスク名を入力"
           value={todoName}
-          onChange={(e) => setTaskName(e.target.value)}
+          onChange={(e) => setTodoName(e.target.value)}
         />
         <input
           type="date"
