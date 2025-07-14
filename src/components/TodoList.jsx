@@ -23,7 +23,7 @@ export function TodoList() {
     },
   ];
   const [todos, setTodos] = useState(todoData);
-  const [taskName, setTaskName] = useState("");
+  const [todoName, setTodoName] = useState("");
   const [dueDate, setDueDate] = useState("");
 
   const AddTodo = (e) => {
@@ -32,8 +32,8 @@ export function TodoList() {
       ...todos,
       {
         id: todos.length + 1,
-        title: taskName,
-        date: taskDate,
+        title: todoName,
+        date: dueDate,
         status: "作業中",
       },
     ]);
@@ -65,7 +65,7 @@ export function TodoList() {
           type="text"
           style={{ marginRight: "10px" }}
           placeholder="タスク名を入力"
-          value={taskName}
+          value={todoName}
           onChange={(e) => setTaskName(e.target.value)}
         />
         <input
