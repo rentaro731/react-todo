@@ -38,7 +38,7 @@ export function TodoList() {
       },
     ]);
 
-    setTaskName("");
+    setTodoName("");
     setDueDate("");
   };
   return (
