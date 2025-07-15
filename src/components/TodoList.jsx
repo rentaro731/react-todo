@@ -2,29 +2,45 @@ import { Radio } from "./Radio.jsx";
 import { TodoItem } from "./TodoItem.jsx";
 import { useState } from "react";
 export function TodoList() {
-  const [todos, setTodos] = useState([
+  const todoData = [
     {
       id: 1,
       title: "Javascriptの基礎",
       date: "2024-01-01",
       status: "作業中",
-      delete: "✖️",
     },
     {
       id: 2,
       title: "非同期処理",
       date: "2024-01-02",
       status: "作業中",
-      delete: "✖️",
     },
     {
       id: 3,
       title: "オブジェクト指向",
       date: "2024-01-03",
       status: "作業中",
-      delete: "✖️",
     },
-  ]);
+  ];
+  const [todos, setTodos] = useState(todoData);
+  const [todoName, setTodoName] = useState("");
+  const [dueDate, setDueDate] = useState("");
+
+  const AddTodo = (e) => {
+    e.preventDefault();
+    setTodos((todos) => [
+      ...todos,
+      {
+        id: todos.length + 1,
+        title: todoName,
+        date: dueDate,
+        status: "作業中",
+      },
+    ]);
+
+    setTodoName("");
+    setDueDate("");
+  };
   return (
     <>
       <Radio options={["すべて", "作業中", "完了"]} />
@@ -44,15 +60,21 @@ export function TodoList() {
           ))}
         </tbody>
       </table>
-      <form id="form">
-        <input
-          type="text"
-          style={{ marginRight: "10px" }}
-          placeholder="タスク名を入力"
-        />
-        <input type="date" style={{ marginRight: "10px" }} />
-        <button type="submit">追加</button>
-      </form>
+
+      <input
+        type="text"
+        style={{ marginRight: "10px" }}
+        placeholder="タスク名を入力"
+        value={todoName}
+        onChange={(e) => setTodoName(e.target.value)}
+      />
+      <input
+        type="date"
+        style={{ marginRight: "10px" }}
+        value={dueDate}
+        onChange={(e) => setDueDate(e.target.value)}
+      />
+      <button onClick={AddTodo}>追加</button>
     </>
   );
 }
