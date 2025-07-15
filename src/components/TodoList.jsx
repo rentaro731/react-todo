@@ -60,22 +60,21 @@ export function TodoList() {
           ))}
         </tbody>
       </table>
-      <>
-        <input
-          type="text"
-          style={{ marginRight: "10px" }}
-          placeholder="タスク名を入力"
-          value={todoName}
-          onChange={(e) => setTodoName(e.target.value)}
-        />
-        <input
-          type="date"
-          style={{ marginRight: "10px" }}
-          value={dueDate}
-          onChange={(e) => setDueDate(e.target.value)}
-        />
-        <button onClick={AddTodo}>追加</button>
-      </>
+
+      <input
+        type="text"
+        style={{ marginRight: "10px" }}
+        placeholder="タスク名を入力"
+        value={todoName}
+        onChange={(e) => setTodoName(e.target.value)}
+      />
+      <input
+        type="date"
+        style={{ marginRight: "10px" }}
+        value={dueDate}
+        onChange={(e) => setDueDate(e.target.value)}
+      />
+      <button onClick={AddTodo}>追加</button>
     </>
   );
 }
