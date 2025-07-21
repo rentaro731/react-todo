@@ -1,6 +1,7 @@
 import { Radio } from "./Radio.jsx";
 import { TodoItem } from "./TodoItem.jsx";
 import { useState } from "react";
+// TodoListコンポーネント
 export function TodoList() {
   const todoData = [
     {
@@ -25,7 +26,7 @@ export function TodoList() {
   const [todos, setTodos] = useState(todoData);
   const [todoName, setTodoName] = useState("");
   const [dueDate, setDueDate] = useState("");
-
+  //タスクの追加
   const AddTodo = (e) => {
     e.preventDefault();
     setTodos((todos) => [
@@ -40,6 +41,11 @@ export function TodoList() {
 
     setTodoName("");
     setDueDate("");
+  };
+  //タスクの削除
+  const DeleteTodo = (idDelete) => {
+    const newTodos = todos.filter((todo) => todo.id !== idDelete);
+    setTodos(newTodos);
   };
   return (
     <>
@@ -56,7 +62,12 @@ export function TodoList() {
         </thead>
         <tbody>
           {todos.map((todo, index) => (
-            <TodoItem key={todo.id} todo={todo} index={index} />
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              index={index}
+              onDelete={DeleteTodo}
+            />
           ))}
         </tbody>
       </table>
