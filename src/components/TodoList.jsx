@@ -27,7 +27,7 @@ export function TodoList() {
   const [todoName, setTodoName] = useState("");
   const [dueDate, setDueDate] = useState("");
   //タスクの追加
-  const AddTodo = (e) => {
+  const addTodo = (e) => {
     e.preventDefault();
     setTodos((todos) => [
       ...todos,
@@ -43,9 +43,12 @@ export function TodoList() {
     setDueDate("");
   };
   //タスクの削除
-  const DeleteTodo = (idDelete) => {
-    const newTodos = todos.filter((todo) => todo.id !== idDelete);
+  const deleteTodo = (targetId) => {
+    const newTodos = todos.filter((todo) => todo.id !== targetId);
+    // IDの番号を振り直す
+    const newId = newTodos.map((todo, index) => ({ ...todo, id: index + 1 }));
     setTodos(newTodos);
+    setTodos(newId);
   };
   return (
     <>
@@ -66,7 +69,7 @@ export function TodoList() {
               key={todo.id}
               todo={todo}
               index={index}
-              onDelete={DeleteTodo}
+              onDelete={deleteTodo}
             />
           ))}
         </tbody>
@@ -85,7 +88,7 @@ export function TodoList() {
         value={dueDate}
         onChange={(e) => setDueDate(e.target.value)}
       />
-      <button onClick={AddTodo}>追加</button>
+      <button onClick={addTodo}>追加</button>
     </>
   );
 }
