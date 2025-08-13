@@ -1,6 +1,6 @@
-export function TodoItem({ todo, index, onDelete }) {
+export function TodoItem({ todo, onDelete }) {
   return (
-    <tr key={index + 1}>
+    <tr key={todo.id}>
       <td>{todo.id}</td>
       <td>{todo.title}</td>
       <td>{todo.date}</td>

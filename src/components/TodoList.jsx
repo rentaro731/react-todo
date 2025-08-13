@@ -65,12 +65,7 @@ export function TodoList() {
         </thead>
         <tbody>
           {todos.map((todo, index) => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              index={index}
-              onDelete={deleteTodo}
-            />
+            <TodoItem key={todo.id} todo={todo} onDelete={deleteTodo} />
           ))}
         </tbody>
       </table>
