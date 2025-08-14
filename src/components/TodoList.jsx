@@ -50,6 +50,17 @@ export function TodoList() {
     setTodos(newTodos);
     setTodos(newId);
   };
+  const toggleStatus = (todoId) => {
+    const toggleButton = todos.map((todo) => {
+      if (todo.id === todoId)
+        return {
+          ...todo,
+          status: todo.status === "作業中" ? "完了" : "作業中",
+        };
+      return todo;
+    });
+    setTodos(toggleButton);
+  };
   return (
     <>
       <Radio options={["すべて", "作業中", "完了"]} />
@@ -68,8 +79,8 @@ export function TodoList() {
             <TodoItem
               key={todo.id}
               todo={todo}
-              index={index}
               onDelete={deleteTodo}
+              onToggle={toggleStatus}
             />
           ))}
         </tbody>
