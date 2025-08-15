@@ -44,11 +44,10 @@ export function TodoList() {
   };
   //タスクの削除
   const deleteTodo = (targetId) => {
-    const newTodos = todos.filter((todo) => todo.id !== targetId);
-    // IDの番号を振り直す
-    const newId = newTodos.map((todo, index) => ({ ...todo, id: index + 1 }));
+    const newTodos = todos
+      .filter((todo) => todo.id !== targetId)
+      .map((todo, index) => ({ ...todo, id: index + 1 }));
     setTodos(newTodos);
-    setTodos(newId);
   };
   return (
     <>
@@ -64,7 +63,7 @@ export function TodoList() {
           </tr>
         </thead>
         <tbody>
-          {todos.map((todo, index) => (
+          {todos.map((todo) => (
             <TodoItem key={todo.id} todo={todo} onDelete={deleteTodo} />
           ))}
         </tbody>
