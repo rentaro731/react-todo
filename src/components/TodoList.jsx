@@ -50,13 +50,17 @@ export function TodoList() {
     setTodos(newTodos);
     setTodos(newId);
   };
+  const work = "作業中";
+  const done = "完了";
+  //タスクの状態を切り替える
   const toggleStatus = (todoId) => {
     const toggleButton = todos.map((todo) => {
-      if (todo.id === todoId)
+      if (todo.id === todoId) {
         return {
           ...todo,
-          status: todo.status === "作業中" ? "完了" : "作業中",
+          status: todo.status === work ? done : work,
         };
+      }
       return todo;
     });
     setTodos(toggleButton);
