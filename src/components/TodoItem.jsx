@@ -1,6 +1,6 @@
 export function TodoItem({ todo, onDelete, onToggle }) {
   return (
-    <tr key={todo.id}>
+    <tr>
       <td>{todo.id}</td>
       <td>{todo.title}</td>
       <td>{todo.date}</td>
