@@ -1,6 +1,8 @@
 import { Radio } from "./Radio.jsx";
 import { TodoItem } from "./TodoItem.jsx";
 import { useState } from "react";
+import { WORK, DONE, ALL } from "../constants.ts";
+
 // TodoListコンポーネント
 export function TodoList() {
   const todoData = [
@@ -8,24 +10,25 @@ export function TodoList() {
       id: 1,
       title: "Javascriptの基礎",
       date: "2024-01-01",
-      status: "作業中",
+      status: WORK,
     },
     {
       id: 2,
       title: "非同期処理",
       date: "2024-01-02",
-      status: "作業中",
+      status: WORK,
     },
     {
       id: 3,
       title: "オブジェクト指向",
       date: "2024-01-03",
-      status: "作業中",
+      status: WORK,
     },
   ];
   const [todos, setTodos] = useState(todoData);
   const [todoName, setTodoName] = useState("");
   const [dueDate, setDueDate] = useState("");
+  const [filterTodos, setFilterTodos] = useState(ALL);
   //タスクの追加
   const addTodo = (e) => {
     e.preventDefault();
@@ -35,7 +38,7 @@ export function TodoList() {
         id: todos.length + 1,
         title: todoName,
         date: dueDate,
-        status: "作業中",
+        status: WORK,
       },
     ]);
 
@@ -49,24 +52,30 @@ export function TodoList() {
       .map((todo, index) => ({ ...todo, id: index + 1 }));
     setTodos(newTodos);
   };
-  const work = "作業中";
-  const done = "完了";
   //タスクの状態を切り替える
   const toggleStatus = (todoId) => {
     const toggleButton = todos.map((todo) => {
       if (todo.id === todoId) {
         return {
           ...todo,
-          status: todo.status === work ? done : work,
+          status: todo.status === WORK ? DONE : WORK,
         };
       }
       return todo;
     });
     setTodos(toggleButton);
   };
+  //タスクの一覧表示
+  const organizeTodos =
+    filterTodos === ALL
+      ? todos
+      : todos.filter((todo) => todo.status === filterTodos);
   return (
     <>
-      <Radio options={["すべて", "作業中", "完了"]} />
+      <Radio
+        options={[ALL, WORK, DONE]}
+        onFilter={(value) => setFilterTodos(value)}
+      />
       <table>
         <thead>
           <tr>
@@ -78,7 +87,7 @@ export function TodoList() {
           </tr>
         </thead>
         <tbody>
-          {todos.map((todo) => (
+          {organizeTodos.map((todo) => (
             <TodoItem
               key={todo.id}
               todo={todo}
