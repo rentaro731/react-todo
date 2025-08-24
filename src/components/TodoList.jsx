@@ -1,6 +1,7 @@
 import { Radio } from "./Radio.jsx";
 import { TodoItem } from "./TodoItem.jsx";
 import { useState } from "react";
+import { ALL, WORK, DONE } from "../constants";
 // TodoListコンポーネント
 export function TodoList() {
   const todoData = [
@@ -8,19 +9,19 @@ export function TodoList() {
       id: 1,
       title: "Javascriptの基礎",
       date: "2024-01-01",
-      status: "作業中",
+      status: WORK,
     },
     {
       id: 2,
       title: "非同期処理",
       date: "2024-01-02",
-      status: "作業中",
+      status: WORK,
     },
     {
       id: 3,
       title: "オブジェクト指向",
       date: "2024-01-03",
-      status: "作業中",
+      status: WORK,
     },
   ];
   const [todos, setTodos] = useState(todoData);
@@ -35,7 +36,7 @@ export function TodoList() {
         id: todos.length + 1,
         title: todoName,
         date: dueDate,
-        status: "作業中",
+        status: WORK,
       },
     ]);
 
@@ -49,15 +50,15 @@ export function TodoList() {
       .map((todo, index) => ({ ...todo, id: index + 1 }));
     setTodos(newTodos);
   };
-  const work = "作業中";
-  const done = "完了";
+  const work = WORK;
+  const done = DONE;
   //タスクの状態を切り替える
   const toggleStatus = (todoId) => {
     const toggleButton = todos.map((todo) => {
       if (todo.id === todoId) {
         return {
           ...todo,
-          status: todo.status === work ? done : work,
+          status: todo.status === WORK ? DONE : WORK,
         };
       }
       return todo;
@@ -66,7 +67,7 @@ export function TodoList() {
   };
   return (
     <>
-      <Radio options={["すべて", "作業中", "完了"]} />
+      <Radio options={[ALL, WORK, DONE]} />
       <table>
         <thead>
           <tr>
