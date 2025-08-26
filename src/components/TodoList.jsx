@@ -1,7 +1,8 @@
 import { Radio } from "./Radio.jsx";
 import { TodoItem } from "./TodoItem.jsx";
 import { useState } from "react";
-import { ALL, WORK, DONE } from "../constants";
+import { ALL, WORK, DONE } from "../../constants.js";
+
 // TodoListコンポーネント
 export function TodoList() {
   const todoData = [
@@ -50,8 +51,6 @@ export function TodoList() {
       .map((todo, index) => ({ ...todo, id: index + 1 }));
     setTodos(newTodos);
   };
-  const work = WORK;
-  const done = DONE;
   //タスクの状態を切り替える
   const toggleStatus = (todoId) => {
     const toggleButton = todos.map((todo) => {
