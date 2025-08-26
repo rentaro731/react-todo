@@ -4,10 +4,13 @@ export function Radio({ options, onFilter }) {
     <>
       {options.map((option, index) => {
         const id = `radio-${index}`;
-        const status = Object.values(STATUS).find(
-          (status) => status.label === option
-        );
-        const value = status ? status.value : "";
+        const status =
+          STATUS.all.label === option
+            ? STATUS.all
+            : STATUS.work.label === option
+            ? STATUS.work
+            : STATUS.done;
+        const value = status.value;
 
         return (
           <span key={id}>
