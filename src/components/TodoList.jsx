@@ -1,7 +1,7 @@
 import { Radio } from "./Radio.jsx";
 import { TodoItem } from "./TodoItem.jsx";
 import { useState } from "react";
-import { WORK, DONE, ALL } from "../constants.ts";
+import { WORK, DONE, ALL, STATUS } from "../../constants.js";
 
 // TodoListコンポーネント
 export function TodoList() {
@@ -28,7 +28,7 @@ export function TodoList() {
   const [todos, setTodos] = useState(todoData);
   const [todoName, setTodoName] = useState("");
   const [dueDate, setDueDate] = useState("");
-  const [filterTodos, setFilterTodos] = useState(ALL);
+  const [filterTodos, setFilterTodos] = useState(STATUS.all.value);
   //タスクの追加
   const addTodo = (e) => {
     e.preventDefault();
@@ -61,15 +61,19 @@ export function TodoList() {
           status: todo.status === WORK ? DONE : WORK,
         };
       }
+
       return todo;
     });
     setTodos(toggleButton);
   };
   //タスクの一覧表示
   const organizeTodos =
-    filterTodos === ALL
+    filterTodos === STATUS.all.value
       ? todos
-      : todos.filter((todo) => todo.status === filterTodos);
+      : todos.filter(
+          (todo) =>
+            todo.status === (filterTodos === STATUS.work.value ? WORK : DONE)
+        );
   return (
     <>
       <Radio

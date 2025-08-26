@@ -1,10 +1,13 @@
-import { WORK, DONE, ALL } from "../constants.ts";
+import { STATUS } from "../../constants.js";
 export function Radio({ options, onFilter }) {
   return (
     <>
       {options.map((option, index) => {
         const id = `radio-${index}`;
-        const value = option === ALL ? ALL : option === WORK ? WORK : DONE;
+        const status = Object.values(STATUS).find(
+          (status) => status.label === option
+        );
+        const value = status ? status.value : "";
 
         return (
           <span key={id}>
