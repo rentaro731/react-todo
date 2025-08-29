@@ -1,6 +1,8 @@
-import { Radio } from "./Radio.jsx";
+import { TodoStatusSelector } from "./TodoStatusSelector.jsx";
 import { TodoItem } from "./TodoItem.jsx";
 import { useState } from "react";
+import { STATUS } from "../../constants.js";
+
 // TodoListコンポーネント
 export function TodoList() {
   const todoData = [
@@ -8,19 +10,19 @@ export function TodoList() {
       id: 1,
       title: "Javascriptの基礎",
       date: "2024-01-01",
-      status: "作業中",
+      status: STATUS.work.label,
     },
     {
       id: 2,
       title: "非同期処理",
       date: "2024-01-02",
-      status: "作業中",
+      status: STATUS.work.label,
     },
     {
       id: 3,
       title: "オブジェクト指向",
       date: "2024-01-03",
-      status: "作業中",
+      status: STATUS.work.label,
     },
   ];
   const [todos, setTodos] = useState(todoData);
@@ -35,7 +37,7 @@ export function TodoList() {
         id: todos.length + 1,
         title: todoName,
         date: dueDate,
-        status: "作業中",
+        status: STATUS.work.label,
       },
     ]);
 
@@ -49,9 +51,25 @@ export function TodoList() {
       .map((todo, index) => ({ ...todo, id: index + 1 }));
     setTodos(newTodos);
   };
+  //タスクの状態を切り替える
+  const toggleStatus = (todoId) => {
+    const toggleButton = todos.map((todo) => {
+      if (todo.id === todoId) {
+        return {
+          ...todo,
+          status:
+            todo.status === STATUS.work.label
+              ? STATUS.done.label
+              : STATUS.work.label,
+        };
+      }
+      return todo;
+    });
+    setTodos(toggleButton);
+  };
   return (
     <>
-      <Radio options={["すべて", "作業中", "完了"]} />
+      <TodoStatusSelector />
       <table>
         <thead>
           <tr>
@@ -64,7 +82,12 @@ export function TodoList() {
         </thead>
         <tbody>
           {todos.map((todo) => (
-            <TodoItem key={todo.id} todo={todo} onDelete={deleteTodo} />
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              onDelete={deleteTodo}
+              onToggle={toggleStatus}
+            />
           ))}
         </tbody>
       </table>

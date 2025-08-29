@@ -1,11 +1,17 @@
-export function TodoItem({ todo, onDelete }) {
+export function TodoItem({ todo, onDelete, onToggle }) {
   return (
     <tr>
       <td>{todo.id}</td>
       <td>{todo.title}</td>
       <td>{todo.date}</td>
       <td>
-        <button>{todo.status}</button>
+        <button
+          onClick={() => {
+            onToggle(todo.id);
+          }}
+        >
+          {todo.status}
+        </button>
       </td>
       <td>
         <button
