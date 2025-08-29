@@ -1,6 +1,6 @@
 import { STATUS } from "../../constants.js";
 
-export function SelectButton() {
+export function TodoStatusSelector() {
   const statusList = [STATUS.all, STATUS.work, STATUS.done];
   return (
     <>

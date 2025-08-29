@@ -1,4 +1,4 @@
-import { SelectButton } from "./SelectButton.jsx";
+import { TodoStatusSelector } from "./TodoStatusSelector.jsx";
 import { TodoItem } from "./TodoItem.jsx";
 import { useState } from "react";
 import { STATUS } from "../../constants.js";
@@ -69,7 +69,7 @@ export function TodoList() {
   };
   return (
     <>
-      <SelectButton />
+      <TodoStatusSelector />
       <table>
         <thead>
           <tr>
