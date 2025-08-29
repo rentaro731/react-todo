@@ -1,7 +1,7 @@
-import { Radio } from "./Radio.jsx";
+import { TodoStatusSelector } from "./TodoStatusSelector.jsx";
 import { TodoItem } from "./TodoItem.jsx";
 import { useState } from "react";
-import { WORK, DONE, ALL, STATUS } from "../../constants.js";
+import { STATUS } from "../../constants.js";
 
 // TodoListコンポーネント
 export function TodoList() {
@@ -10,19 +10,19 @@ export function TodoList() {
       id: 1,
       title: "Javascriptの基礎",
       date: "2024-01-01",
-      status: WORK,
+      status: STATUS.work.label,
     },
     {
       id: 2,
       title: "非同期処理",
       date: "2024-01-02",
-      status: WORK,
+      status: STATUS.work.label,
     },
     {
       id: 3,
       title: "オブジェクト指向",
       date: "2024-01-03",
-      status: WORK,
+      status: STATUS.work.label,
     },
   ];
   const [todos, setTodos] = useState(todoData);
@@ -38,7 +38,7 @@ export function TodoList() {
         id: todos.length + 1,
         title: todoName,
         date: dueDate,
-        status: WORK,
+        status: STATUS.work.label,
       },
     ]);
 
@@ -58,7 +58,10 @@ export function TodoList() {
       if (todo.id === todoId) {
         return {
           ...todo,
-          status: todo.status === WORK ? DONE : WORK,
+          status:
+            todo.status === STATUS.work.label
+              ? STATUS.done.label
+              : STATUS.work.label,
         };
       }
 
@@ -80,6 +83,7 @@ export function TodoList() {
         options={[ALL, WORK, DONE]}
         onFilter={(value) => setFilterTodos(value)}
       />
+      <TodoStatusSelector />
       <table>
         <thead>
           <tr>
