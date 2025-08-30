@@ -75,15 +75,14 @@ export function TodoList() {
       ? todos
       : todos.filter(
           (todo) =>
-            todo.status === (filterTodos === STATUS.work.value ? WORK : DONE)
+            todo.status ===
+            (filterTodos === STATUS.work.value
+              ? STATUS.work.label
+              : STATUS.done.label)
         );
   return (
     <>
-      <Radio
-        options={[ALL, WORK, DONE]}
-        onFilter={(value) => setFilterTodos(value)}
-      />
-      <TodoStatusSelector />
+      <TodoStatusSelector onFilter={(value) => setFilterTodos(value)} />
       <table>
         <thead>
           <tr>
