@@ -70,16 +70,14 @@ export function TodoList() {
     setTodos(toggleButton);
   };
   //タスクの一覧表示
+  const conversionStatus = {
+    [STATUS.work.value]: STATUS.work.label,
+    [STATUS.done.value]: STATUS.done.label,
+  };
   const organizeTodos =
     filterTodos === STATUS.all.value
       ? todos
-      : todos.filter(
-          (todo) =>
-            todo.status ===
-            (filterTodos === STATUS.work.value
-              ? STATUS.work.label
-              : STATUS.done.label)
-        );
+      : todos.filter((todo) => todo.status === conversionStatus[filterTodos]);
   return (
     <>
       <TodoStatusSelector onFilter={(value) => setFilterTodos(value)} />
