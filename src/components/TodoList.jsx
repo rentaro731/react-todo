@@ -10,19 +10,19 @@ export function TodoList() {
       id: 1,
       title: "Javascriptの基礎",
       date: "2024-01-01",
-      status: STATUS.work.label,
+      status: STATUS.work.value,
     },
     {
       id: 2,
       title: "非同期処理",
       date: "2024-01-02",
-      status: STATUS.work.label,
+      status: STATUS.work.value,
     },
     {
       id: 3,
       title: "オブジェクト指向",
       date: "2024-01-03",
-      status: STATUS.work.label,
+      status: STATUS.work.value,
     },
   ];
   const [todos, setTodos] = useState(todoData);
@@ -38,7 +38,7 @@ export function TodoList() {
         id: todos.length + 1,
         title: todoName,
         date: dueDate,
-        status: STATUS.work.label,
+        status: STATUS.work.value,
       },
     ]);
 
@@ -59,9 +59,9 @@ export function TodoList() {
         return {
           ...todo,
           status:
-            todo.status === STATUS.work.label
-              ? STATUS.done.label
-              : STATUS.work.label,
+            todo.status === STATUS.work.value
+              ? STATUS.done.value
+              : STATUS.work.value,
         };
       }
 
@@ -70,14 +70,11 @@ export function TodoList() {
     setTodos(toggleButton);
   };
   //タスクの一覧表示
-  const conversionStatus = {
-    [STATUS.work.value]: STATUS.work.label,
-    [STATUS.done.value]: STATUS.done.label,
-  };
+
   const organizeTodos =
     filterTodos === STATUS.all.value
       ? todos
-      : todos.filter((todo) => todo.status === conversionStatus[filterTodos]);
+      : todos.filter((todo) => todo.status === filterTodos);
   return (
     <>
       <TodoStatusSelector onFilter={(value) => setFilterTodos(value)} />
