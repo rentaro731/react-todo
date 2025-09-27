@@ -1,74 +1,94 @@
 import { TodoStatusSelector } from "./TodoStatusSelector.jsx";
 import { TodoItem } from "./TodoItem.jsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { STATUS } from "../../constants.js";
+import { db } from "../Firebase.js";
+import {
+  collection,
+  addDoc,
+  query,
+  onSnapshot,
+  orderBy,
+  serverTimestamp,
+  doc,
+  deleteDoc,
+  updateDoc,
+} from "firebase/firestore";
 
 // TodoListコンポーネント
 export function TodoList() {
-  const todoData = [
-    {
-      id: 1,
-      title: "Javascriptの基礎",
-      date: "2024-01-01",
-      status: STATUS.work.value,
-    },
-    {
-      id: 2,
-      title: "非同期処理",
-      date: "2024-01-02",
-      status: STATUS.work.value,
-    },
-    {
-      id: 3,
-      title: "オブジェクト指向",
-      date: "2024-01-03",
-      status: STATUS.work.value,
-    },
-  ];
-  const [todos, setTodos] = useState(todoData);
+  const [todos, setTodos] = useState([]);
   const [todoName, setTodoName] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [filterTodos, setFilterTodos] = useState(STATUS.all.value);
-  //タスクの追加
-  const addTodo = (e) => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const q = query(collection(db, "todos"), orderBy("createdAt", "asc"));
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const nextTodos = snapshot.docs.map((d, index) => {
+          const data = d.data();
+          return {
+            id: d.id,
+            rowNo: index + 1,
+            title: data.title ?? "",
+            date: data.date ?? "",
+            status: data.status ?? STATUS.work.value,
+          };
+        });
+        setTodos(nextTodos);
+        setLoading(false);
+      },
+      (err) => {
+        console.error("onSnapshot error:", err);
+        setLoading(false);
+      }
+    );
+    return () => unsubscribe();
+  }, []);
+
+  // データベースにtodoを追加
+  const todoManagement = async (e) => {
     e.preventDefault();
-    setTodos((todos) => [
-      ...todos,
-      {
-        id: todos.length + 1,
-        title: todoName,
+    if (!todoName || !dueDate) return alert("タスク名と期限を入力してください");
+    try {
+      await addDoc(collection(db, "todos"), {
+        title: todoName.trim(),
         date: dueDate,
         status: STATUS.work.value,
-      },
-    ]);
-
-    setTodoName("");
-    setDueDate("");
+        createdAt: serverTimestamp(),
+      });
+      setTodoName("");
+      setDueDate("");
+    } catch (error) {
+      console.error("Error adding document: ", error);
+    }
   };
   //タスクの削除
-  const deleteTodo = (targetId) => {
-    const newTodos = todos
-      .filter((todo) => todo.id !== targetId)
-      .map((todo, index) => ({ ...todo, id: index + 1 }));
-    setTodos(newTodos);
+  const deleteTodo = async (docId) => {
+    try {
+      await deleteDoc(doc(db, "todos", docId));
+    } catch (error) {
+      console.error("Error deleting document: ", error);
+    }
   };
   //タスクの状態を切り替える
-  const toggleStatus = (todoId) => {
-    const toggleButton = todos.map((todo) => {
-      if (todo.id === todoId) {
-        return {
-          ...todo,
-          status:
-            todo.status === STATUS.work.value
-              ? STATUS.done.value
-              : STATUS.work.value,
-        };
-      }
-
-      return todo;
-    });
-    setTodos(toggleButton);
+  const toggleStatus = async (docId) => {
+    const targetId = todos.find((todo) => todo.id === docId);
+    if (!targetId) return;
+    const changeStatus =
+      targetId.status === STATUS.work.value
+        ? STATUS.done.value
+        : STATUS.work.value;
+    try {
+      await updateDoc(doc(db, "todos", docId), { status: changeStatus });
+    } catch (error) {
+      console.error("Error updating document: ", error);
+    }
   };
+
   //タスクの一覧表示
 
   const organizeTodos =
@@ -113,7 +133,7 @@ export function TodoList() {
         value={dueDate}
         onChange={(e) => setDueDate(e.target.value)}
       />
-      <button onClick={addTodo}>追加</button>
+      <button onClick={todoManagement}>追加</button>
     </>
   );
 }

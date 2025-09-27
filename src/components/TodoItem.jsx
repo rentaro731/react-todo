@@ -3,7 +3,7 @@ export function TodoItem({ todo, onDelete, onToggle }) {
   const statusLabel = STATUS[todo.status].label;
   return (
     <tr>
-      <td>{todo.id}</td>
+      <td>{todo.rowNo}</td>
       <td>{todo.title}</td>
       <td>{todo.date}</td>
       <td>
