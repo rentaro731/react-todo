@@ -1,4 +1,6 @@
+import { STATUS } from "../../constants.js";
 export function TodoItem({ todo, onDelete, onToggle }) {
+  const statusLabel = STATUS[todo.status].label;
   return (
     <tr>
       <td>{todo.id}</td>
@@ -10,7 +12,7 @@ export function TodoItem({ todo, onDelete, onToggle }) {
             onToggle(todo.id);
           }}
         >
-          {todo.status}
+          {statusLabel}
         </button>
       </td>
       <td>
