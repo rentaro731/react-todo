@@ -2,7 +2,7 @@ import { TodoStatusSelector } from "./TodoStatusSelector.jsx";
 import { TodoItem } from "./TodoItem.jsx";
 import { useEffect, useState } from "react";
 import { STATUS } from "../../constants.js";
-import { db } from "../Firebase.js";
+import { db } from "../firebaseConfig.js";
 import {
   collection,
   addDoc,
@@ -32,7 +32,7 @@ export function TodoList() {
           const data = d.data();
           return {
             id: d.id,
-            rowNo: index + 1,
+            uiNumber: index + 1,
             title: data.title ?? "",
             date: data.date ?? "",
             status: data.status ?? STATUS.work.value,
@@ -50,7 +50,7 @@ export function TodoList() {
   }, []);
 
   // データベースにtodoを追加
-  const todoManagement = async (e) => {
+  const addTodo = async (e) => {
     e.preventDefault();
     if (!todoName || !dueDate) return alert("タスク名と期限を入力してください");
     try {
@@ -67,9 +67,9 @@ export function TodoList() {
     }
   };
   //タスクの削除
-  const deleteTodo = async (docId) => {
+  const deleteTodo = async (targetId) => {
     try {
-      await deleteDoc(doc(db, "todos", docId));
+      await deleteDoc(doc(db, "todos", targetId));
     } catch (error) {
       console.error("Error deleting document: ", error);
     }
@@ -133,7 +133,7 @@ export function TodoList() {
         value={dueDate}
         onChange={(e) => setDueDate(e.target.value)}
       />
-      <button onClick={todoManagement}>追加</button>
+      <button onClick={addTodo}>追加</button>
     </>
   );
 }
