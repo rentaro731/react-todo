@@ -28,11 +28,10 @@ export function TodoList() {
     const unsubscribe = onSnapshot(
       q,
       (snapshot) => {
-        const nextTodos = snapshot.docs.map((d, index) => {
+        const nextTodos = snapshot.docs.map((d) => {
           const data = d.data();
           return {
             id: d.id,
-            uiNumber: index + 1,
             title: data.title ?? "",
             date: data.date ?? "",
             status: data.status ?? STATUS.work.value,
@@ -75,26 +74,27 @@ export function TodoList() {
     }
   };
   //タスクの状態を切り替える
-  const toggleStatus = async (docId) => {
-    const targetId = todos.find((todo) => todo.id === docId);
-    if (!targetId) return;
+  const toggleStatus = async (targetId) => {
+    const matchId = todos.find((todo) => todo.id === targetId);
+    if (!matchId) return;
     const changeStatus =
-      targetId.status === STATUS.work.value
+      matchId.status === STATUS.work.value
         ? STATUS.done.value
         : STATUS.work.value;
     try {
-      await updateDoc(doc(db, "todos", docId), { status: changeStatus });
+      await updateDoc(doc(db, "todos", targetId), { status: changeStatus });
     } catch (error) {
       console.error("Error updating document: ", error);
     }
   };
 
   //タスクの一覧表示
-
   const organizeTodos =
     filterTodos === STATUS.all.value
       ? todos
       : todos.filter((todo) => todo.status === filterTodos);
+
+  if (loading) return <div>Loading...</div>;
   return (
     <>
       <TodoStatusSelector onFilter={(value) => setFilterTodos(value)} />
@@ -109,17 +109,17 @@ export function TodoList() {
           </tr>
         </thead>
         <tbody>
-          {organizeTodos.map((todo) => (
+          {organizeTodos.map((todo, index) => (
             <TodoItem
               key={todo.id}
               todo={todo}
+              viewNo={index + 1}
               onDelete={deleteTodo}
               onToggle={toggleStatus}
             />
           ))}
         </tbody>
       </table>
-
       <input
         type="text"
         style={{ marginRight: "10px" }}

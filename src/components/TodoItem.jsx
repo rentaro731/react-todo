@@ -1,9 +1,9 @@
 import { STATUS } from "../../constants.js";
-export function TodoItem({ todo, onDelete, onToggle }) {
+export function TodoItem({ todo, onDelete, onToggle, viewNo }) {
   const statusLabel = STATUS[todo.status].label;
   return (
     <tr>
-      <td>{todo.uiNumber}</td>
+      <td>{viewNo}</td>
       <td>{todo.title}</td>
       <td>{todo.date}</td>
       <td>
