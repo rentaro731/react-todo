@@ -67,6 +67,8 @@ export function TodoList() {
   };
   //タスクの削除
   const deleteTodo = async (targetId) => {
+    const matchId = todos.find((todo) => todo.id === targetId);
+    if (!matchId) return alert("すでに削除されたタスクです");
     try {
       await deleteDoc(doc(db, "todos", targetId));
     } catch (error) {
@@ -76,7 +78,7 @@ export function TodoList() {
   //タスクの状態を切り替える
   const toggleStatus = async (targetId) => {
     const matchId = todos.find((todo) => todo.id === targetId);
-    if (!matchId) return;
+    if (!matchId) return alert("すでに処理されたタスクです");
     const changeStatus =
       matchId.status === STATUS.work.value
         ? STATUS.done.value
